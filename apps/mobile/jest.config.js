@@ -17,6 +17,8 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/app/**',
+    // Composition root: native SQLite/NetInfo wiring, exercised by Maestro E2E.
+    '!src/providers/AppProviders.tsx',
     '!src/**/*.test.{ts,tsx}',
     '!src/test/**',
     '!src/**/index.ts',

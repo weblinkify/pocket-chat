@@ -14,7 +14,7 @@ module.exports = defineConfig([
     },
   },
   {
-    files: ['**/*.test.{ts,tsx}', 'src/test/**'],
+    files: ['**/*.test.{ts,tsx}', 'src/test/**', 'jest.setup.ts'],
     rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
   { ignores: ['dist/*', '.expo/*', 'coverage/*', '*.config.js', 'babel.config.js'] },
