@@ -1,0 +1,31 @@
+{
+  "models": [
+    {
+      "id": "mock-fast",
+      "description": "Quick, short answers"
+    },
+    {
+      "id": "mock-smart",
+      "description": "Slower, more thorough answers"
+    }
+  ],
+  "scenarios": {
+    "error": {
+      "status": 500,
+      "message": "The mock provider simulated an internal error."
+    }
+  },
+  "replies": {
+    "codeTypescript": "Here's a small, typed debounce helper you can drop into any project:\n\n```typescript\nexport function debounce<A extends unknown[]>(\n  fn: (...args: A) => void,\n  waitMs = 300,\n): (...args: A) => void {\n  let timer: ReturnType<typeof setTimeout> | undefined;\n  return (...args: A) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), waitMs);\n  };\n}\n\nconst save = debounce((text: string) => console.log('saving', text), 500);\nsave('h');\nsave('hello'); // only this call runs\n```\n\n**How it works**\n\n1. Each call clears the previous timer.\n2. Only the last call within `waitMs` actually fires.\n3. Generics keep the argument types of `fn` intact.",
+    "codePython": "Here's an async retry decorator with exponential backoff:\n\n```python\nimport asyncio\nimport functools\nimport random\n\n\ndef retry(attempts: int = 3, base_delay: float = 0.2):\n    def decorator(fn):\n        @functools.wraps(fn)\n        async def wrapper(*args, **kwargs):\n            for attempt in range(1, attempts + 1):\n                try:\n                    return await fn(*args, **kwargs)\n                except Exception:\n                    if attempt == attempts:\n                        raise\n                    delay = base_delay * 2 ** (attempt - 1)\n                    await asyncio.sleep(delay + random.random() * 0.1)\n\n        return wrapper\n\n    return decorator\n```\n\nUse it like `@retry(attempts=5)` on any `async def`.",
+    "greeting": "Hi! 👋 I'm the **Pocket Chat** mock assistant. I run entirely on your device, so there's no API key and no network needed.\n\nTry sending one of these to see the different UI states:\n\n- `code` returns a syntax-highlighted code block with a copy button\n- `python code` returns the same thing, in Python\n- `error` simulates a server error, so you can try **Retry**\n- `slow` simulates a timeout\n- anything else gets a streamed markdown answer",
+    "pool": [
+      "Great question. Here's a quick breakdown:\n\n### The short version\nMost problems get easier once you **split them into smaller steps**. Start with the part you understand best, get it working, then build outward.\n\n### A simple process\n1. Write down what \"done\" looks like.\n2. List the unknowns, and test the riskiest one first.\n3. Ship something small, then improve it.\n\n> Make it work, make it right, make it fast. In that order.",
+      "Sure! Here are a few ideas to think about:\n\n- **Clarity beats cleverness.** Code is read far more often than it's written.\n- **Name things well.** A good name saves a comment.\n- **Delete code.** The best line of code is often the one you don't write.\n\nWant me to go deeper on any of these?",
+      "Here's how I'd approach it:\n\n**1. Understand the goal.** What outcome matters most: speed, cost, or quality?\n\n**2. Pick a baseline.** Measure where you are today so you can tell whether a change helped.\n\n**3. Iterate.** Change *one* variable at a time and compare.\n\nThat loop of measure, change one thing, and compare works for code, fitness, cooking, and most other things.",
+      "Let's compare the options side by side:\n\n| Option | Pros | Cons |\n| --- | --- | --- |\n| Do it now | Momentum | Less planning |\n| Plan first | Fewer surprises | Slower start |\n| Prototype | Fast feedback | Throwaway work |\n\nMy pick is to **prototype first**, then plan with what you learned.",
+      "Here's a mental model I find useful: think of state as living in **three places**.\n\n1. *Server state*: data that belongs to the backend. Cache it, and expect it to go stale.\n2. *UI state*: what's open, selected, or being typed. It's short-lived.\n3. *Persisted state*: what must survive a restart.\n\nKeeping each in its own home, with `TanStack Query`, `Zustand`, and `SQLite`, makes bugs much easier to find."
+    ],
+    "smartEpilogue": "\n\n---\n\n**Going a bit deeper**\n\nThere are trade-offs worth mentioning. Faster approaches often cost more upfront or are harder to maintain, and simpler ones may not scale. A good habit is to write down *why* you picked an option, a lightweight decision record, so that future-you (or a teammate) can revisit it when circumstances change.\n\n**Next steps**\n- Pick one thing to try today.\n- Set a checkpoint to review how it went.\n- Adjust and repeat."
+  }
+}
