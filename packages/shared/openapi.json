@@ -1,0 +1,517 @@
+{
+  "components": {
+    "schemas": {
+      "ChatCompletion": {
+        "properties": {
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/Choice"
+            },
+            "minItems": 1,
+            "title": "Choices",
+            "type": "array"
+          },
+          "created": {
+            "title": "Created",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "object": {
+            "const": "chat.completion",
+            "default": "chat.completion",
+            "title": "Object",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "created",
+          "model",
+          "choices"
+        ],
+        "title": "ChatCompletion",
+        "type": "object"
+      },
+      "ChatCompletionChunk": {
+        "description": "One `data:` event of a streamed completion (text/event-stream).",
+        "properties": {
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChunkChoice"
+            },
+            "minItems": 1,
+            "title": "Choices",
+            "type": "array"
+          },
+          "created": {
+            "title": "Created",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "object": {
+            "const": "chat.completion.chunk",
+            "default": "chat.completion.chunk",
+            "title": "Object",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "created",
+          "model",
+          "choices"
+        ],
+        "title": "ChatCompletionChunk",
+        "type": "object"
+      },
+      "ChatCompletionRequest": {
+        "properties": {
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            },
+            "minItems": 1,
+            "title": "Messages",
+            "type": "array"
+          },
+          "model": {
+            "examples": [
+              "mock-fast"
+            ],
+            "minLength": 1,
+            "title": "Model",
+            "type": "string"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "stream": {
+            "default": false,
+            "title": "Stream",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "model",
+          "messages"
+        ],
+        "title": "ChatCompletionRequest",
+        "type": "object"
+      },
+      "ChatMessage": {
+        "properties": {
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "system",
+              "user",
+              "assistant"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "ChatMessage",
+        "type": "object"
+      },
+      "Choice": {
+        "properties": {
+          "finish_reason": {
+            "anyOf": [
+              {
+                "enum": [
+                  "stop",
+                  "length"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Reason"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          }
+        },
+        "required": [
+          "index",
+          "message",
+          "finish_reason"
+        ],
+        "title": "Choice",
+        "type": "object"
+      },
+      "ChunkChoice": {
+        "properties": {
+          "delta": {
+            "$ref": "#/components/schemas/Delta"
+          },
+          "finish_reason": {
+            "anyOf": [
+              {
+                "enum": [
+                  "stop",
+                  "length"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Reason"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "index",
+          "delta",
+          "finish_reason"
+        ],
+        "title": "ChunkChoice",
+        "type": "object"
+      },
+      "Delta": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Content"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "enum": [
+                  "system",
+                  "user",
+                  "assistant"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Role"
+          }
+        },
+        "title": "Delta",
+        "type": "object"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message",
+          "type"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "provider": {
+            "title": "Provider",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "provider",
+          "version"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "Model": {
+        "properties": {
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "object": {
+            "const": "model",
+            "default": "model",
+            "title": "Object",
+            "type": "string"
+          },
+          "owned_by": {
+            "title": "Owned By",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "owned_by"
+        ],
+        "title": "Model",
+        "type": "object"
+      },
+      "ModelList": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/Model"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "object": {
+            "const": "list",
+            "default": "list",
+            "title": "Object",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "ModelList",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "OpenAI-style chat completions with SSE streaming. Mock provider by default.",
+    "title": "Pocket Chat API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "operationId": "create_completion_v1_chat_completions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletion"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionChunk"
+                }
+              }
+            },
+            "description": "A completion, or with `stream: true` an SSE stream of `ChatCompletionChunk` events ending in `data: [DONE]`."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Create Completion",
+        "tags": [
+          "chat"
+        ]
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "operationId": "list_models_v1_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Models",
+        "tags": [
+          "models"
+        ]
+      }
+    }
+  }
+}

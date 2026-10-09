@@ -1,0 +1,58 @@
+[project]
+name = "pocket-chat-api"
+version = "0.1.0"
+description = "Streaming chat completions API for Pocket Chat, with a deterministic mock LLM provider"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=1.13.0",
+    "fastapi>=0.143.0",
+    "openai>=3.27.0",
+    "pydantic>=2.14.0",
+    "pydantic-settings>=2.15.0",
+    "structlog>=26.1.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "hypothesis>=6.168.5",
+    "jsonschema>=4.26.0",
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "pytest-cov>=7.1.0",
+    "referencing>=0.37.0",
+    "ruff>=0.16.10",
+    "types-jsonschema>=4.26.0.20261006",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF", "ASYNC", "S", "PT", "RET", "TRY"]
+ignore = ["TRY003", "S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "PT011"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+addopts = "--cov=app --cov-branch --cov-report=term-missing --cov-report=xml --cov-fail-under=90"
+
+[tool.coverage.run]
+omit = ["app/export_openapi.py"]
