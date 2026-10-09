@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.0",
-    "lefthook": "^1.10.0",
+    "lefthook": "^2.1.17",
     "prettier": "^3.4.0"
   }
 }
