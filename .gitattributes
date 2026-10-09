@@ -1,0 +1,9 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+*.ttf binary
+# Generated: collapse in PR diffs
+packages/shared/openapi.json linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+apps/api/uv.lock linguist-generated=true

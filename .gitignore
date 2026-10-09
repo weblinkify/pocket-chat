@@ -1,0 +1,92 @@
+# ───────────────────────── OS / editors ─────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ───────────────────────── Env / secrets ─────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.p8
+*.p12
+*.key
+*.mobileprovision
+credentials.json
+google-services.json
+GoogleService-Info.plist
+
+# ───────────────────────── Node / pnpm ─────────────────────────
+node_modules/
+.pnpm-store/
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tsbuildinfo
+dist/
+build/
+.turbo/
+.eslintcache
+
+# ───────────────────────── Expo / React Native ─────────────────────────
+apps/mobile/.expo/
+apps/mobile/.expo-shared/
+apps/mobile/web-build/
+apps/mobile/ios/
+apps/mobile/android/
+*.jsbundle
+*.hbc
+metro-health-check*
+.metro-health-check*
+expo-env.d.ts
+
+# Xcode / CocoaPods (in case prebuild output is committed later)
+DerivedData/
+*.xcuserstate
+xcuserdata/
+Pods/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# ───────────────────────── Python ─────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.python-eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+pip-wheel-metadata/
+
+# ───────────────────────── Test / coverage ─────────────────────────
+coverage/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+junit*.xml
+test-results/
+
+# ───────────────────────── E2E (Maestro) ─────────────────────────
+.maestro/screenshots/
+.maestro/recordings/
+maestro-report/
+*.mp4
+
+# ───────────────────────── Logs / misc ─────────────────────────
+logs/
+*.log
+*.local
+.cache/
+tmp/
