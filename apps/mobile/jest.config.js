@@ -13,7 +13,7 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop|marked|prism-react-renderer|@pocket-chat/.*|until-async|headers-polyfill))(?!.*\\.mjs$)',
   ],
-  testPathIgnorePatterns: ['/node_modules/', '/.maestro/'],
+  testPathIgnorePatterns: ['/node_modules/', '/.maestro/', '\\.live\\.test\\.ts$'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/app/**',

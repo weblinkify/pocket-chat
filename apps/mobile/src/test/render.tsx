@@ -16,7 +16,10 @@ export function makeServices(overrides: Partial<Services> = {}): Services {
 
 export function makeWrapper(services: Services = makeServices()) {
   const client = new QueryClient({
-    defaultOptions: { queries: { retry: false, gcTime: Infinity }, mutations: { retry: false } },
+    defaultOptions: {
+      queries: { retry: false, gcTime: Infinity },
+      mutations: { retry: false, gcTime: Infinity },
+    },
   });
   function Wrapper({ children }: { children: ReactNode }) {
     return (

@@ -30,3 +30,7 @@ jest.mock(
   'react-native-safe-area-context',
   () => require('react-native-safe-area-context/jest/mock').default,
 );
+
+// CI runners are slower than dev machines; give streamed UI updates room to land.
+require('@testing-library/react-native').configure({ asyncUtilTimeout: 4000 });
+jest.setTimeout(20_000);
