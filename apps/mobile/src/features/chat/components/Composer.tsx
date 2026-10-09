@@ -6,8 +6,9 @@ import { Pressable, TextInput, View } from 'react-native';
 import { useColors } from '@/theme/colors';
 
 const LINE_HEIGHT = 22;
+const V_PADDING = 16; // py-2
 export const MAX_LINES = 6;
-const V_PADDING = 20;
+export const MAX_COMPOSER_HEIGHT = LINE_HEIGHT * MAX_LINES + V_PADDING;
 
 interface Props {
   isStreaming: boolean;
@@ -20,7 +21,6 @@ interface Props {
 export function Composer({ isStreaming, onSend, onStop, disabled = false }: Props) {
   const colors = useColors();
   const [text, setText] = useState('');
-  const [height, setHeight] = useState(LINE_HEIGHT);
   const canSend = text.trim().length > 0 && !isStreaming && !disabled;
 
   const send = () => {
@@ -28,7 +28,6 @@ export function Composer({ isStreaming, onSend, onStop, disabled = false }: Prop
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onSend(text);
     setText('');
-    setHeight(LINE_HEIGHT);
   };
 
   return (
@@ -41,21 +40,10 @@ export function Composer({ isStreaming, onSend, onStop, disabled = false }: Prop
         multiline
         accessibilityLabel="Message"
         accessibilityHint="Type a message to the assistant"
-        onContentSizeChange={(e) =>
-          setHeight(
-            Math.min(
-              Math.max(e.nativeEvent.contentSize.height, LINE_HEIGHT),
-              LINE_HEIGHT * MAX_LINES,
-            ),
-          )
-        }
-        style={{
-          height: height + V_PADDING / 2,
-          maxHeight: LINE_HEIGHT * MAX_LINES + V_PADDING / 2,
-          lineHeight: LINE_HEIGHT,
-        }}
+        // iOS grows a multiline field natively; maxHeight caps it at six lines, then it scrolls.
+        // (Measuring onContentSizeChange and setting height re-triggers layout and jitters the screen.)
+        style={{ maxHeight: MAX_COMPOSER_HEIGHT, lineHeight: LINE_HEIGHT }}
         className="flex-1 py-2 pr-2 text-[16px] text-ink dark:text-[#ececec]"
-        scrollEnabled={height >= LINE_HEIGHT * MAX_LINES}
         maxFontSizeMultiplier={1.6}
         testID="composer-input"
       />

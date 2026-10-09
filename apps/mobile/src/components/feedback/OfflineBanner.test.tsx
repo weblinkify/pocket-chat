@@ -17,8 +17,14 @@ describe('OfflineBanner', () => {
     expect(screen.getByRole('alert')).toHaveTextContent(/on-device mock still works/);
   });
 
-  it('warns in server mode', async () => {
+  it('ignores a flaky reachability probe while the network is connected', async () => {
     netinfo.useNetInfo.mockReturnValue({ isConnected: true, isInternetReachable: false });
+    await render(<OfflineBanner usingMock />);
+    expect(screen.queryByRole('alert')).not.toBeOnTheScreen();
+  });
+
+  it('warns in server mode', async () => {
+    netinfo.useNetInfo.mockReturnValue({ isConnected: false, isInternetReachable: false });
     await render(<OfflineBanner usingMock={false} />);
     expect(screen.getByRole('alert')).toHaveTextContent(/fail until you reconnect/);
   });

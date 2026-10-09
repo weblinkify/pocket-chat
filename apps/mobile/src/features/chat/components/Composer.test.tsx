@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
-import { Composer, MAX_LINES } from './Composer';
+import { Composer, MAX_COMPOSER_HEIGHT, MAX_LINES } from './Composer';
 
 const props = () => ({ isStreaming: false, onSend: jest.fn(), onStop: jest.fn() });
 
@@ -30,15 +30,12 @@ describe('Composer', () => {
     expect(screen.queryByRole('button', { name: 'Send message' })).not.toBeOnTheScreen();
   });
 
-  it(`grows with content but caps at ${MAX_LINES} lines, then scrolls`, async () => {
+  it(`lets iOS auto-grow the field natively, capped at ${MAX_LINES} lines`, async () => {
     await render(<Composer {...props()} />);
     const input = screen.getByLabelText('Message');
-    const size = (height: number) => ({ nativeEvent: { contentSize: { height, width: 300 } } });
-    await fireEvent(input, 'contentSizeChange', size(66));
-    expect(input).toHaveStyle({ height: 76 });
-    expect(input.props.scrollEnabled).toBe(false);
-    await fireEvent(input, 'contentSizeChange', size(1000));
-    expect(input).toHaveStyle({ height: 22 * MAX_LINES + 10 });
-    expect(input.props.scrollEnabled).toBe(true);
+    // No JS-controlled height: measuring content and re-setting height causes a layout feedback loop.
+    expect(input.props.onContentSizeChange).toBeUndefined();
+    expect(input).toHaveStyle({ maxHeight: MAX_COMPOSER_HEIGHT });
+    expect(input.props.style).not.toEqual(expect.objectContaining({ height: expect.anything() }));
   });
 });
