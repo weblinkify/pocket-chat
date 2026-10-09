@@ -21,8 +21,10 @@
     "test": "pnpm -r --if-present test && pnpm api:test",
     "api:test": "cd apps/api && uv run pytest",
     "openapi": "cd apps/api && uv run python -m app.export_openapi ../../packages/shared/openapi.json",
-    "e2e:ios": "maestro test apps/mobile/.maestro",
-    "prepare": "lefthook install || true"
+    "e2e:ios": "bash scripts/e2e-ios.sh",
+    "prepare": "lefthook install || true",
+    "e2e:studio": "maestro studio",
+    "ios": "pnpm --filter @pocket-chat/mobile exec expo start --ios"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",

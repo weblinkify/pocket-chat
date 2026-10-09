@@ -1,0 +1,7 @@
+# Sub-flow: type ${MESSAGE} into the composer and send it.
+appId: com.weblinkify.pocketchat
+---
+- tapOn:
+    id: composer-input
+- inputText: ${MESSAGE}
+- tapOn: Send message

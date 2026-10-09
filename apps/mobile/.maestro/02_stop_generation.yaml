@@ -1,0 +1,21 @@
+appId: com.weblinkify.pocketchat
+name: Stop a reply mid-stream
+---
+- launchApp:
+    clearState: true
+- startRecording: 02_stop_generation
+- tapOn: 'Model: Mock Fast'
+- tapOn: .*Mock Smart.*
+- runFlow:
+    file: _send.yaml
+    env:
+      MESSAGE: tell me something thoughtful
+- extendedWaitUntil:
+    visible: Stop generating
+    timeout: 10000
+- tapOn: Stop generating
+- extendedWaitUntil:
+    visible: Stopped generating
+    timeout: 10000
+- assertVisible: Send message
+- stopRecording

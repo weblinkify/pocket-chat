@@ -1,0 +1,15 @@
+appId: com.weblinkify.pocketchat
+name: Server error shows Retry
+---
+- launchApp:
+    clearState: true
+- startRecording: 04_error_and_retry
+- runFlow:
+    file: _send.yaml
+    env:
+      MESSAGE: error
+- extendedWaitUntil:
+    visible: .*simulated an internal error.*
+    timeout: 15000
+- assertVisible: Retry
+- stopRecording

@@ -90,3 +90,4 @@ logs/
 *.local
 .cache/
 tmp/
+apps/mobile/.maestro/output/

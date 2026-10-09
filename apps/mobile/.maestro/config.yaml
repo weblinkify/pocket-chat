@@ -1,0 +1,7 @@
+# Maestro E2E flows. Run against an iOS simulator build with the API in mock mode:
+#   pnpm api:dev   (in one terminal)
+#   pnpm e2e:ios
+flows:
+  - '*.yaml'
+excludeTags:
+  - wip

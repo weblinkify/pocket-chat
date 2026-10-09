@@ -14,11 +14,14 @@ export interface SettingsState {
 }
 
 export const DEFAULT_API_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000';
+/** E2E builds set EXPO_PUBLIC_DEFAULT_BACKEND=server to exercise the real API. */
+export const DEFAULT_BACKEND: Backend =
+  process.env.EXPO_PUBLIC_DEFAULT_BACKEND === 'server' ? 'server' : 'mock';
 
 export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
-      backend: 'mock',
+      backend: DEFAULT_BACKEND,
       apiUrl: DEFAULT_API_URL,
       defaultModel: 'mock-fast',
       setBackend: (backend) => set({ backend }),

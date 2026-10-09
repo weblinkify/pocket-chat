@@ -1,0 +1,20 @@
+appId: com.weblinkify.pocketchat
+name: Send a message and see the streamed reply
+tags: [smoke]
+---
+- launchApp:
+    clearState: true
+- startRecording: 01_send_and_stream
+- assertVisible: What can I help with?
+- runFlow:
+    file: _send.yaml
+    env:
+      MESSAGE: hello
+- extendedWaitUntil:
+    visible: .*mock assistant.*
+    timeout: 20000
+- extendedWaitUntil:
+    visible: Regenerate response
+    timeout: 20000
+- takeScreenshot: streamed-reply
+- stopRecording

@@ -1,0 +1,19 @@
+appId: com.weblinkify.pocketchat
+name: Regenerate the last reply
+---
+- launchApp:
+    clearState: true
+- startRecording: 03_regenerate
+- runFlow:
+    file: _send.yaml
+    env:
+      MESSAGE: tell me more
+- extendedWaitUntil:
+    visible: Regenerate response
+    timeout: 20000
+- tapOn: Regenerate response
+- extendedWaitUntil:
+    visible: Regenerate response
+    timeout: 20000
+- takeScreenshot: regenerated
+- stopRecording

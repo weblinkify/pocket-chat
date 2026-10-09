@@ -1,0 +1,21 @@
+appId: com.weblinkify.pocketchat
+name: Delete a chat from the drawer
+---
+- launchApp:
+    clearState: true
+- startRecording: 05_delete_chat
+- runFlow:
+    file: _send.yaml
+    env:
+      MESSAGE: Delete me later
+- extendedWaitUntil:
+    visible: Regenerate response
+    timeout: 20000
+- tapOn: Open conversations
+- longPressOn: Delete me later
+- tapOn: Delete # action sheet
+- tapOn: Delete # confirmation alert
+- extendedWaitUntil:
+    visible: Your conversations will appear here.
+    timeout: 10000
+- stopRecording
