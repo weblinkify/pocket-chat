@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Pocket Chat",
+    "slug": "pocket-chat",
+    "scheme": "pocketchat",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.weblinkify.pocketchat"
+    },
+    "android": {
+      "package": "com.weblinkify.pocketchat",
+      "adaptiveIcon": {
+        "backgroundColor": "#10a37f",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 120,
+          "backgroundColor": "#ffffff",
+          "dark": { "backgroundColor": "#212121" }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
