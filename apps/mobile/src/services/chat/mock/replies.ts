@@ -178,7 +178,8 @@ export function pickReply(messages: ChatMessage[], model: string, seed: number):
   let text: string;
   if (has(last, 'code')) text = has(last, 'python') ? CODE_PY : CODE_TS;
   else if (/^\s*(hi|hello|hey)\b/i.test(last)) text = GREETING;
-  else text = POOL[hash(`${seed}:${last}`) % POOL.length] ?? '';
+  // Offset by seed so consecutive seeds (Regenerate) always pick a different reply.
+  else text = POOL[(hash(last) + seed) % POOL.length] ?? '';
 
   if (model === 'mock-smart') text += SMART_EPILOGUE;
   return { kind: 'text', text };
