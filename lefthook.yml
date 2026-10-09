@@ -8,7 +8,8 @@ pre-commit:
       run: pnpm prettier --check {staged_files}
     eslint:
       glob: 'apps/mobile/**/*.{ts,tsx}'
-      run: pnpm --filter @pocket-chat/mobile exec eslint {staged_files}
+      root: 'apps/mobile/'
+      run: npx eslint --max-warnings 0 {staged_files}
     ruff:
       glob: 'apps/api/**/*.py'
       root: 'apps/api/'
