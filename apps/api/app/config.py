@@ -1,13 +1,18 @@
 from pathlib import Path
 from typing import Literal
 
-from pydantic import SecretStr
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# packages/shared/mock/replies.json: single source of mock replies for the app and the API.
-_REPO_REPLIES = (
-    Path(__file__).resolve().parents[3] / "packages" / "shared" / "mock" / "replies.json"
-)
+
+def default_replies_path() -> Path:
+    """Locate packages/shared/mock/replies.json, the single source of mock replies
+    for the app and the API. Docker images set MOCK_REPLIES_PATH explicitly."""
+    for parent in Path(__file__).resolve().parents:
+        candidate = parent / "packages" / "shared" / "mock" / "replies.json"
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError("packages/shared/mock/replies.json not found; set MOCK_REPLIES_PATH")
 
 
 class Settings(BaseSettings):
@@ -19,7 +24,7 @@ class Settings(BaseSettings):
     mock_chunk_size: int = 4
     mock_seed: int = 42
     mock_slow_seconds: float = 60.0
-    mock_replies_path: Path = _REPO_REPLIES
+    mock_replies_path: Path = Field(default_factory=default_replies_path)
 
     openai_api_key: SecretStr | None = None
     openai_model: str = "gpt-4o-mini"

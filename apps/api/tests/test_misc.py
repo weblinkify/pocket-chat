@@ -50,3 +50,13 @@ async def test_mock_timeout_scenario() -> None:
             )
         ]
     assert exc.value.status_code == 504
+
+
+def test_replies_path_lookup_fails_clearly(monkeypatch: pytest.MonkeyPatch) -> None:
+    from pathlib import Path
+
+    from app import config
+
+    monkeypatch.setattr(Path, "exists", lambda _self: False)
+    with pytest.raises(FileNotFoundError, match="MOCK_REPLIES_PATH"):
+        config.default_replies_path()
