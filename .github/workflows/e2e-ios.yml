@@ -1,0 +1,102 @@
+name: E2E (iOS)
+
+on:
+  pull_request:
+    paths:
+      - 'apps/mobile/**'
+      - 'apps/api/**'
+      - 'packages/shared/**'
+      - '.github/workflows/e2e-ios.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/mobile/**'
+      - 'apps/api/**'
+      - 'packages/shared/**'
+      - '.github/workflows/e2e-ios.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-ios-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+env:
+  MAESTRO_VERSION: '2.11.0' # read by the installer below
+  EXPO_PUBLIC_API_URL: http://localhost:8000
+  EXPO_PUBLIC_DEFAULT_BACKEND: server
+
+jobs:
+  maestro:
+    name: Maestro flows
+    runs-on: macos-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: apps/api/uv.lock
+      - run: pnpm install --frozen-lockfile
+
+      - name: Start API (mock provider)
+        working-directory: apps/api
+        run: |
+          uv sync --locked --no-dev
+          LLM_PROVIDER=mock RATE_LIMIT=10000/minute nohup uv run --no-dev uvicorn app.main:app --port 8000 > "$RUNNER_TEMP/api.log" 2>&1 &
+          for i in $(seq 1 60); do curl -fsS localhost:8000/health && exit 0; sleep 1; done
+          cat "$RUNNER_TEMP/api.log"; exit 1
+
+      - name: Contract check (app client against the live API)
+        env:
+          E2E_API_URL: http://localhost:8000
+        run: pnpm --filter @pocket-chat/mobile test:live
+
+      - name: Build iOS simulator app (Release, JS bundled)
+        working-directory: apps/mobile
+        run: |
+          npx expo prebuild --platform ios --clean
+          xcodebuild -workspace ios/PocketChat.xcworkspace -scheme PocketChat \
+            -configuration Release -sdk iphonesimulator -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO -quiet
+
+      - name: Boot simulator and install app
+        working-directory: apps/mobile
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c "import sys,json; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for r,ds in sorted(d.items(), reverse=True) if 'iOS' in r for x in ds if x['name'].startswith('iPhone')))")
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl install "$UDID" build/Build/Products/Release-iphonesimulator/PocketChat.app
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Run Maestro flows
+        working-directory: apps/mobile
+        run: maestro --device "$UDID" test .maestro --format junit --output "$RUNNER_TEMP/maestro-report.xml" --test-output-dir "$RUNNER_TEMP/maestro"
+
+      # Always upload, so you can watch every flow's recording (Actions run > Artifacts).
+      - name: Upload screenshots, recordings and logs
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: maestro-artifacts
+          path: |
+            ${{ runner.temp }}/maestro
+            ${{ runner.temp }}/maestro-report.xml
+            ${{ runner.temp }}/api.log
+            ~/.maestro/tests
+          retention-days: 7
