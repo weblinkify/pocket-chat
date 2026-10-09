@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: pocket-chat-api:local
+    ports:
+      - '8000:8000'
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      MOCK_LATENCY_MS: ${MOCK_LATENCY_MS:-30}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      LOG_JSON: 'true'
+    restart: unless-stopped
