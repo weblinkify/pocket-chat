@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "charliermarsh.ruff",
+    "ms-python.mypy-type-checker",
+    "expo.vscode-expo-tools",
+    "editorconfig.editorconfig"
+  ]
+}

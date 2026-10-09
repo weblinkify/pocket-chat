@@ -1,0 +1,32 @@
+{
+  "name": "pocket-chat",
+  "version": "0.0.0",
+  "private": true,
+  "description": "ChatGPT-style iOS chat app: Expo + FastAPI monorepo with a mock LLM provider",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,mobile -c blue,magenta \"pnpm api:dev\" \"pnpm --filter @pocket-chat/mobile start\"",
+    "api:sync": "cd apps/api && uv sync",
+    "api:dev": "cd apps/api && LLM_PROVIDER=mock uv run uvicorn app.main:app --reload --port 8000",
+    "lint": "pnpm -r --if-present lint && prettier --check . && pnpm api:lint",
+    "api:lint": "cd apps/api && uv run ruff check . && uv run ruff format --check .",
+    "format": "prettier --write . && cd apps/api && uv run ruff format .",
+    "typecheck": "pnpm -r --if-present typecheck && pnpm api:typecheck",
+    "api:typecheck": "cd apps/api && uv run mypy --strict app",
+    "test": "pnpm -r --if-present test && pnpm api:test",
+    "api:test": "cd apps/api && uv run pytest",
+    "openapi": "cd apps/api && uv run python -m app.export_openapi ../../packages/shared/openapi.json",
+    "e2e:ios": "maestro test apps/mobile/.maestro",
+    "prepare": "lefthook install || true"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "lefthook": "^1.10.0",
+    "prettier": "^3.4.0"
+  }
+}

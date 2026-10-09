@@ -1,0 +1,9 @@
+node_modules
+coverage
+dist
+build
+.expo
+apps/api
+pnpm-lock.yaml
+packages/shared/openapi.json
+packages/shared/src/generated

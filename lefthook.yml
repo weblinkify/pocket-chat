@@ -1,0 +1,29 @@
+# Git hooks. Installed automatically by `pnpm install` (see "prepare" script).
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      glob: '*.{ts,tsx,js,json,md,yml,yaml}'
+      exclude: 'apps/api/**'
+      run: pnpm prettier --check {staged_files}
+    eslint:
+      glob: 'apps/mobile/**/*.{ts,tsx}'
+      run: pnpm --filter @pocket-chat/mobile exec eslint {staged_files}
+    ruff:
+      glob: 'apps/api/**/*.py'
+      root: 'apps/api/'
+      run: uv run ruff check {staged_files} && uv run ruff format --check {staged_files}
+    gitleaks:
+      run: command -v gitleaks >/dev/null && gitleaks protect --staged --redact || echo "gitleaks not installed, skipping"
+
+commit-msg:
+  commands:
+    conventional:
+      run: |
+        head -1 {1} | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: .+' \
+          || { echo "Commit message must follow Conventional Commits, e.g. 'feat(api): add mock provider'"; exit 1; }
+
+pre-push:
+  commands:
+    typecheck:
+      run: pnpm typecheck
