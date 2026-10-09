@@ -1,0 +1,365 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Markdown renders the full feature set (snapshot) 1`] = `
+<View>
+  <Text
+    accessibilityRole="header"
+    className="mb-1 mt-3 font-semibold text-ink dark:text-[#ececec] text-[22px] leading-[30px]"
+  >
+    Title
+  </Text>
+  <Text
+    className="my-1.5 text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+    selectable={true}
+  >
+    Some 
+    <Text
+      className="font-semibold"
+    >
+      bold
+    </Text>
+    , 
+    <Text
+      className="italic"
+    >
+      italic
+    </Text>
+    , 
+    <Text
+      className="line-through"
+    >
+      gone
+    </Text>
+     and 
+    <Text
+      className="rounded bg-paper-soft text-[14px] text-ink dark:bg-night-soft dark:text-[#ececec]"
+      style={
+        {
+          "fontFamily": "Menlo",
+        }
+      }
+    >
+       inline code 
+    </Text>
+     with a 
+    <Text
+      accessibilityRole="link"
+      className="text-accent underline"
+      onPress={[Function]}
+    >
+      link
+    </Text>
+    .
+  </Text>
+  <View
+    className="my-1.5"
+    style={
+      {
+        "paddingLeft": 2,
+      }
+    }
+  >
+    <View
+      className="my-0.5 flex-row"
+    >
+      <Text
+        className="w-6 text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+      >
+        1.
+      </Text>
+      <View
+        className="flex-1"
+      >
+        <Text
+          className="text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+          selectable={true}
+        >
+          first
+        </Text>
+      </View>
+    </View>
+    <View
+      className="my-0.5 flex-row"
+    >
+      <Text
+        className="w-6 text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+      >
+        2.
+      </Text>
+      <View
+        className="flex-1"
+      >
+        <Text
+          className="text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+          selectable={true}
+        >
+          second
+        </Text>
+        <View
+          className="my-1.5"
+          style={
+            {
+              "paddingLeft": 16,
+            }
+          }
+        >
+          <View
+            className="my-0.5 flex-row"
+          >
+            <Text
+              className="w-6 text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+            >
+              •
+            </Text>
+            <View
+              className="flex-1"
+            >
+              <Text
+                className="text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+                selectable={true}
+              >
+                nested
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    className="my-2 border-l-[3px] border-paper-line pl-3 dark:border-night-line"
+  >
+    <Text
+      className="my-1.5 text-[16px] leading-[25px] text-ink dark:text-[#ececec]"
+      selectable={true}
+    >
+      quoted
+    </Text>
+  </View>
+  <View
+    className="my-2 overflow-hidden rounded-xl border border-paper-line dark:border-night-line"
+  >
+    <View
+      className="flex-row bg-paper-soft dark:bg-night-soft"
+    >
+      <Text
+        className="flex-1 border-paper-line px-2 py-1.5 text-[14px] leading-[20px] text-ink dark:border-night-line dark:text-[#ececec] font-semibold "
+      >
+        A
+      </Text>
+      <Text
+        className="flex-1 border-paper-line px-2 py-1.5 text-[14px] leading-[20px] text-ink dark:border-night-line dark:text-[#ececec] font-semibold border-l"
+      >
+        B
+      </Text>
+    </View>
+    <View
+      className="border-t border-paper-line dark:border-night-line"
+    >
+      <View
+        className="flex-row "
+      >
+        <Text
+          className="flex-1 border-paper-line px-2 py-1.5 text-[14px] leading-[20px] text-ink dark:border-night-line dark:text-[#ececec]  "
+        >
+          1
+        </Text>
+        <Text
+          className="flex-1 border-paper-line px-2 py-1.5 text-[14px] leading-[20px] text-ink dark:border-night-line dark:text-[#ececec]  border-l"
+        >
+          2
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    className="my-4 h-px bg-paper-line dark:bg-night-line"
+  />
+  <View
+    className="my-2 overflow-hidden rounded-2xl border border-paper-line bg-[#f7f7f8] dark:border-night-line dark:bg-night-deep"
+  >
+    <View
+      className="flex-row items-center justify-between border-b border-paper-line px-4 py-2 dark:border-night-line"
+    >
+      <Text
+        className="text-xs font-medium text-ink-soft dark:text-ink-faint"
+      >
+        typescript
+      </Text>
+      <View
+        accessibilityLabel="Copy code"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        className="flex-row items-center gap-1 active:opacity-60"
+        collapsable={false}
+        focusable={true}
+        hitSlop={10}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#5d5d5d",
+                "fontSize": 14,
+              },
+              undefined,
+              {
+                "fontFamily": "ionicons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+        <Text
+          className="text-xs text-ink-soft dark:text-ink-faint"
+        >
+          Copy
+        </Text>
+      </View>
+    </View>
+    <RCTScrollView
+      contentContainerClassName="px-4 py-3"
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+    >
+      <View>
+        <Text
+          selectable={true}
+          style={
+            {
+              "fontFamily": "Menlo",
+              "fontSize": 13,
+              "lineHeight": 20,
+            }
+          }
+        >
+          <Text>
+            <Text
+              style={
+                {
+                  "color": "hsl(301, 63%, 40%)",
+                }
+              }
+            >
+              const
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "#0d0d0d",
+                }
+              }
+            >
+               x
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "hsl(221, 87%, 60%)",
+                }
+              }
+            >
+              :
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "#0d0d0d",
+                }
+              }
+            >
+               
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "hsl(119, 34%, 47%)",
+                }
+              }
+            >
+              number
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "#0d0d0d",
+                }
+              }
+            >
+               
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "hsl(221, 87%, 60%)",
+                }
+              }
+            >
+              =
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "#0d0d0d",
+                }
+              }
+            >
+               
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "hsl(35, 99%, 36%)",
+                }
+              }
+            >
+              1
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "hsl(119, 34%, 47%)",
+                }
+              }
+            >
+              ;
+            </Text>
+          </Text>
+        </Text>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;
