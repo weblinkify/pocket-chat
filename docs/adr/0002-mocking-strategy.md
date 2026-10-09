@@ -23,7 +23,7 @@ Mock at three levels, each at the boundary it owns:
 ## Consequences
 
 - `pnpm dev` works for anyone right after cloning.
-- Scenario definitions exist in two places (Python and the MSW handlers). Contract tests check both against `openapi.json` to keep them in sync.
+- Reply text lives once, in `packages/shared/mock/replies.json`. The small selection function exists in TS and Python, and parity tests pin identical hashes. Contract tests check the API's responses against `openapi.json`, and `test:live` runs the app's real HTTP client against the running server.
 - Real providers are only tested through recorded and mocked HTTP, never live in CI.
 
 ## Alternatives considered

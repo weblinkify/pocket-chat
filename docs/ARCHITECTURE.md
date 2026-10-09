@@ -1,6 +1,6 @@
 # Architecture
 
-> Status: **scaffolding**. This document describes the target design and is updated as each piece lands.
+> Status: **implemented**. The mobile app, the API, the shared contract and CI are in place.
 
 ## System overview
 

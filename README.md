@@ -71,15 +71,22 @@ pocket-chat/
 
 ## Getting started
 
-### Prerequisites
+### Try it on your iPhone (no Xcode, no Apple account)
+
+1. Install **Expo Go** from the App Store.
+2. On your Mac: `pnpm install`, then `pnpm --filter @pocket-chat/mobile start`.
+3. Scan the QR code with the iPhone Camera app. Your iPhone and Mac must be on the same Wi-Fi (or use `pnpm --filter @pocket-chat/mobile start:tunnel`).
+
+The app uses the **on-device mock** by default, so it works with no server at all. To stream from the Python API, run `pnpm api:dev` and set **Settings > Assistant backend > Server** to `http://<your-mac-ip>:8000`.
+
+### Prerequisites (full development)
 
 | Tool    | Version | Install                                                        |
 | ------- | ------- | -------------------------------------------------------------- |
 | Node    | 22 LTS  | `nvm install` (reads `.nvmrc`)                                 |
 | pnpm    | 9+      | `corepack enable`                                              |
-| Python  | 3.12    | `uv python install 3.12`                                       |
 | uv      | latest  | `curl -LsSf https://astral.sh/uv/install.sh \| sh`             |
-| Xcode   | 16+     | Mac App Store (needed for the iOS simulator)                   |
+| Xcode   | 16+     | Mac App Store. Only needed for the iOS Simulator and E2E tests |
 | Maestro | latest  | `curl -fsSL https://get.maestro.mobile.dev \| bash` (E2E only) |
 
 ### Install and run
@@ -87,18 +94,18 @@ pocket-chat/
 ```bash
 pnpm install           # JS deps for every workspace, plus git hooks via lefthook
 pnpm api:sync          # Python deps (uv sync in apps/api)
-cp apps/api/.env.example apps/api/.env
 
-pnpm dev               # starts the API in mock mode on :8000 and the Expo dev server
+pnpm dev               # API in mock mode on :8000 + the Expo dev server
+pnpm ios               # same, but opens the iOS Simulator (needs Xcode)
 ```
-
-Press `i` in the Expo terminal to open the iOS simulator.
 
 ### Run the API with Docker
 
 ```bash
 docker compose up --build
 curl localhost:8000/health
+curl -N localhost:8000/v1/chat/completions -H 'content-type: application/json' \
+  -d '{"model":"mock-fast","messages":[{"role":"user","content":"hello"}],"stream":true}'
 ```
 
 ### Use a real LLM provider (optional)
@@ -106,12 +113,22 @@ curl localhost:8000/health
 The mock provider is the default. To use a real model, set these in `apps/api/.env`:
 
 ```bash
-LLM_PROVIDER=openai          # or: anthropic
-OPENAI_API_KEY=sk-...
-# ANTHROPIC_API_KEY=...
+LLM_PROVIDER=anthropic       # or: openai
+ANTHROPIC_API_KEY=...        # defaults to claude-opus-5-5, with server-side refusal fallbacks on
+# OPENAI_API_KEY=...
 ```
 
-No code changes are needed. CI never calls a real provider.
+No code changes are needed. CI never calls a real provider, and the test suite blocks all outbound network access.
+
+### Watch the E2E tests on the Simulator
+
+```bash
+pnpm e2e:ios           # builds the app, opens Simulator, starts the mock API, runs every Maestro flow
+pnpm e2e:ios --no-build
+pnpm e2e:studio        # Maestro Studio: inspect elements and step through flows by hand
+```
+
+Each flow records a video to `apps/mobile/.maestro/output`. On CI, recordings and screenshots are uploaded as artifacts on every run of **E2E (iOS)**.
 
 ## Mock scenarios
 
@@ -124,7 +141,7 @@ When the mock provider is active, keywords in the **last user message** choose t
 | `slow`   | Streams past the client timeout   | Timeout handling, stop        |
 | _(none)_ | Seeded lorem-style markdown reply | Normal streaming              |
 
-To add a new scenario, see [docs/TESTING.md](docs/TESTING.md#adding-a-mock-scenario).
+The reply text lives in [`packages/shared/mock/replies.json`](packages/shared/mock/replies.json), shared by the app's on-device mock and the API. To add a new scenario, see [docs/TESTING.md](docs/TESTING.md#adding-a-mock-scenario).
 
 ## Scripts
 
@@ -151,6 +168,10 @@ Tests are written first (TDD), and CI enforces coverage thresholds: **85%** on m
 - [ADR 0002: Mocking strategy](docs/adr/0002-mocking-strategy.md)
 - [ADR 0003: Streaming over SSE](docs/adr/0003-streaming-sse.md)
 - [Contributing](CONTRIBUTING.md)
+
+## Releases
+
+`eas.yml` builds with EAS Build and ships OTA updates with EAS Update, and is triggered manually or by a `v*` tag. It skips cleanly until you add an `EXPO_TOKEN` repository secret. Building for real devices or TestFlight also needs an Apple Developer Program membership ($99/year) and `eas init` to link the project. Neither is required to run the app in Expo Go or the Simulator.
 
 ## License
 
