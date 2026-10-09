@@ -27,4 +27,4 @@ commit-msg:
 pre-push:
   commands:
     typecheck:
-      run: pnpm -r --if-present typecheck
+      run: pnpm -r --if-present typecheck && pnpm api:typecheck

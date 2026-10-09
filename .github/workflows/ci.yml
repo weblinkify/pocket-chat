@@ -108,7 +108,7 @@ jobs:
       - name: Shared contract tests
         run: pnpm --filter @pocket-chat/shared test
       - name: Mobile tests (coverage thresholds enforced by Jest)
-        run: pnpm --filter @pocket-chat/mobile exec jest --coverage --ci
+        run: pnpm --filter @pocket-chat/mobile exec jest --coverage --ci --reporters=default --reporters=github-actions
       - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         if: ${{ !cancelled() }}
         with:
